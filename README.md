@@ -15,34 +15,34 @@ In order to achieve a first pass, we need a client that is capable of playing an
 
 Right now I'm storing data as `Media` and `Tracks`, the former being any game, film, or series. I'll probably save track length as well unless there is a way to derive that from the file on S3.
 
-```javascript
+```graphql
 type Track {
-  id: ID!
+	id: ID!
 
-  # readable song title
-  name: String
+	# readable song title
+	name: String
 
-  # URL of mp3 file
-  url: String
+	# URL of mp3 file
+	url: String
 
-  # reference to Game|Film|Series
-  media: Media
+	# reference to Game|Film|Series
+	media: Media
 }
 
 type Media {
-  id: ID!
+	id: ID!
 
-  # title of particular media
-  name: String!
+	# title of particular media
+	name: String!
 
-  # title of overall franchise if applicable
-  franchise: String
+	# title of overall franchise if applicable
+	franchise: String
 
-  # url to background art for album
-  background: String
+	# url to background art for album
+	background: String
 
-  # type of media whether its a Game|Film|Series
-  type: String
+	# type of media whether its a Game|Film|Series
+	type: String
 }
 ```
 
