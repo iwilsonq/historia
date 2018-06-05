@@ -5,37 +5,45 @@ import UserError from '../../utils/UserError'
 
 const schema = [
 	/* GraphQL */ `
-  type Media {
-    id: ID!
-    name: String!
-    franchise: String
-    background: String
-    type: String
-  }
-  
-  type Game {
-    id: ID!
-    name: String!
-    franchise: String
-    background: String
-    type: String
-  }
+		type Media {
+			id: ID!
 
-  extend type Query {
-    media(type: String): [Media]
-  }
+			# title of particular media
+			name: String!
 
-  input CreateMediaInput {
-    name: String!
-    background: String
-    franchise: String
-    type: String
-  }
+			# title of overall franchise if applicable
+			franchise: String
 
-  extend type Mutation {
-    createMedia(input: CreateMediaInput!): Media
-  }
-`
+			# url to background art for album
+			background: String
+
+			# type of media whether its a Game|Film|Series
+			type: String
+		}
+
+		type Game {
+			id: ID!
+			name: String!
+			franchise: String
+			background: String
+			type: String
+		}
+
+		extend type Query {
+			media(type: String): [Media]
+		}
+
+		input CreateMediaInput {
+			name: String!
+			background: String
+			franchise: String
+			type: String
+		}
+
+		extend type Mutation {
+			createMedia(input: CreateMediaInput!): Media
+		}
+	`
 ]
 
 const resolvers = {

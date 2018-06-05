@@ -3,27 +3,33 @@ import { listTracks, createTrack } from './models'
 
 const schema = [
 	/* GraphQL */ `
-  type Track {
-    id: ID
-    name: String
-    url: String
-    media: Media
-  }
+		type Track {
+			id: ID!
 
-  extend type Query {
-    tracks(first: Int = 20, after: ID): [Track]
-  }
+			# readable song title
+			name: String
 
-  input CreateTrackInput {
-    name: String!
-    url: String!
-    media: String
-  }
+			# URL of mp3 file
+			url: String
 
-  extend type Mutation {
-    createTrack(input: CreateTrackInput!): Track
-  }
-`
+			# reference to Game|Film|Series
+			media: Media
+		}
+
+		extend type Query {
+			tracks(first: Int = 20, after: ID): [Track]
+		}
+
+		input CreateTrackInput {
+			name: String!
+			url: String!
+			media: String
+		}
+
+		extend type Mutation {
+			createTrack(input: CreateTrackInput!): Track
+		}
+	`
 ]
 
 const resolvers = {

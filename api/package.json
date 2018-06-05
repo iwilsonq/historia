@@ -9,7 +9,7 @@
 	"private": false,
 	"scripts": {
 		"dev": "DEBUG=api:* nodemon index.js --exec 'babel-node'",
-		"migrate": "babel-node migrations/seed.js"
+		"migrate": "DEBUG=api:* babel-node migrations/seed.js"
 	},
 	"dependencies": {
 		"apollo-server-express": "^1.3.6",

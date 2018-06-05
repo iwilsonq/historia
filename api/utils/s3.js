@@ -6,23 +6,27 @@ const s3 = new AWS.S3({
 	params: {}
 })
 
-const buildParams = buffer => {
+const buildParams = ({ Body, Key }) => {
 	return {
 		Bucket: process.env.AWS_S3_BUCKET,
-		Body: buffer
+		Body,
+		Key,
+		ACL: 'public-read'
 	}
 }
 
-export const uploadFile = buffer => {
-	const params = buildParams(buffer)
-	console.log('PARAMS', params)
+export const uploadFile = payload => {
+	const params = buildParams(payload)
 	return new Promise((resolve, reject) => {
 		s3.putObject(params, (err, data) => {
 			if (err) {
 				console.error(err)
+				reject(err)
 			}
 
-			console.log('data', data)
+			resolve({
+				url: `https://s3-us-west-1.amazonaws.com/${process.env.AWS_S3_BUCKET}/${params.Key}`
+			})
 		})
 	})
 }
