@@ -1,22 +1,20 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 
+import { client } from './apolloClient'
+
 import { TrackScreen } from './screens/TrackScreen'
-
-const DEFAULT_IP = '10.0.0.46'
-
-const client = new ApolloClient({
-	uri: `http://${DEFAULT_IP}:8080/graphql`
-})
+import PlayerProvider from './components/Player'
 
 export default class App extends React.Component {
 	render() {
 		return (
 			<ApolloProvider client={client}>
 				<SafeAreaView style={styles.container}>
-					<TrackScreen />
+					<PlayerProvider>
+						<TrackScreen />
+					</PlayerProvider>
 				</SafeAreaView>
 			</ApolloProvider>
 		)
