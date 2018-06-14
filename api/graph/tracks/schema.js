@@ -6,6 +6,8 @@ const schema = [
 		type Track {
 			id: ID!
 
+			number: Int
+
 			# readable song title
 			name: String
 
@@ -13,7 +15,7 @@ const schema = [
 			url: String
 
 			# reference to Game|Film|Series
-			media: Media
+			album: Album
 		}
 
 		extend type Query {
@@ -23,7 +25,7 @@ const schema = [
 		input CreateTrackInput {
 			name: String!
 			url: String!
-			media: String
+			album: String
 		}
 
 		extend type Mutation {
@@ -34,7 +36,7 @@ const schema = [
 
 const resolvers = {
 	Query: {
-		async tracks(_, args, ctx) {
+		tracks(_, args, ctx) {
 			debug(`tracks query %O`, args)
 			return listTracks(args)
 		}

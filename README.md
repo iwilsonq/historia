@@ -26,22 +26,22 @@ type Track {
 	url: String
 
 	# reference to Game|Film|Series
-	media: Media
+	album: Album
 }
 
-type Media {
+type Album {
 	id: ID!
 
-	# title of particular media
+	# title of particular album
 	name: String!
 
-	# title of overall franchise if applicable
-	franchise: String
+	# title of overall series if applicable
+	series: String
 
 	# url to background art for album
 	background: String
 
-	# type of media whether its a Game|Film|Series
+	# type of album whether its a Game|Film|Series
 	type: String
 }
 ```

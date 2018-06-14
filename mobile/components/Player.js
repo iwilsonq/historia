@@ -14,7 +14,6 @@ export class PlayerProvider extends Component {
 	playbackObject = null
 
 	playSound = async uri => {
-		// stop if currently playing
 		if (this.state.playbackStatus) {
 			await this.playbackObject.stopAsync()
 		}
@@ -65,8 +64,10 @@ export class PlayerProvider extends Component {
 	}
 
 	handleSkip = () => {
-		const { tracks } = this.props.client.readQuery({
-			query: TRACKS_QUERY
+		const {
+			album: { tracks }
+		} = this.props.client.readQuery({
+			query: ALBUM_TRACKS_QUERY
 		})
 
 		const nextTrack = tracks[this.state.track.number]
@@ -91,17 +92,19 @@ export class PlayerProvider extends Component {
 		const { playbackStatus, track } = this.state
 
 		return (
-			<Query query={TRACKS_QUERY}>
+			<Query query={ALBUM_TRACKS_QUERY}>
 				{({ data, loading, error }) => {
 					if (error) {
 						console.error(error)
 					}
 
+					const { album = {} } = data
+
 					return (
 						<View style={styles.wrapper}>
 							<View style={styles.children}>
 								{React.cloneElement(this.props.children, {
-									tracks: data.tracks,
+									tracks: album.tracks,
 									loading,
 									...playerProps
 								})}
@@ -119,7 +122,7 @@ export class PlayerProvider extends Component {
 											/>
 										</View>
 										<Text style={styles.trackInfo}>
-											{track.name} - {track.media.name}
+											{track.name} - {album.name}
 										</Text>
 									</View>
 
@@ -153,13 +156,13 @@ export class PlayerProvider extends Component {
 	}
 }
 
-export const TRACKS_QUERY = gql`
-	query Tracks {
-		tracks {
-			id
-			url
+export const ALBUM_TRACKS_QUERY = gql`
+	query AlbumTracks {
+		album(name: "The Legend of Zelda: Ocarina of Time") {
 			name
-			media {
+			tracks {
+				id
+				url
 				name
 			}
 		}

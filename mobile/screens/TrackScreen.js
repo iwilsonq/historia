@@ -14,12 +14,14 @@ const TrackScreen = props => {
 		)
 	}
 
+	const { tracks = [] } = props.album
+
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={props.tracks}
+				data={tracks}
 				renderItem={({ item, index }) => (
-					<Track number={index + 1} onTrackPress={props.handleTrackPress} {...item} />
+					<Track number={item.number} onTrackPress={props.handleTrackPress} {...item} />
 				)}
 				keyExtractor={item => item.id}
 			/>

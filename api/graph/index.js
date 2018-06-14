@@ -1,8 +1,8 @@
 import merge from 'lodash/merge'
 import { resolvers as trackResolvers, schema as trackSchema } from './tracks/schema'
-import { resolvers as mediaResolvers, schema as mediaSchema } from './media/schema'
+import { resolvers as albumResolvers, schema as albumSchema } from './albums/schema'
 
-const schema = [...trackSchema, ...mediaSchema]
-const resolvers = merge({}, trackResolvers, mediaResolvers)
+const schema = [...trackSchema, ...albumSchema]
+const resolvers = merge({}, trackResolvers, albumResolvers)
 
 export { resolvers, schema }

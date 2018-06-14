@@ -5,16 +5,17 @@ import { ApolloProvider } from 'react-apollo'
 import { client } from './apolloClient'
 
 import { TrackScreen } from './screens/TrackScreen'
-import PlayerProvider from './components/Player'
+// import PlayerProvider from './components/Player'
+import NowPlaying from './screens/NowPlaying'
 
 export default class App extends React.Component {
 	render() {
 		return (
 			<ApolloProvider client={client}>
 				<SafeAreaView style={styles.container}>
-					<PlayerProvider>
+					<NowPlaying>
 						<TrackScreen />
-					</PlayerProvider>
+					</NowPlaying>
 				</SafeAreaView>
 			</ApolloProvider>
 		)

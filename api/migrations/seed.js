@@ -5,8 +5,9 @@ import fs from 'fs'
 import path from 'path'
 import mongoose from 'mongoose'
 import { uploadFile } from '../utils/s3'
+import { getName, convertToFilename } from '../utils/strings'
 import { listTracks, createTrack } from '../graph/tracks/models'
-import { listMedia } from '../graph/media/models'
+import { listAlbums } from '../graph/albums/models'
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost/historia'
 
@@ -25,22 +26,32 @@ function connect() {
 	})
 }
 
-async function uploadFileAndCreateObject(filename, mediaId) {
-	debug(`file ${filename}`)
-	const buffer = fs.readFileSync(path.resolve(__dirname, `songs/${filename}`))
+function uploadFileAndCreateObject(file, album) {
+	const folderName = convertToFilename(album.name)
 
-	const response = await uploadFile({
-		Body: buffer,
-		Key: filename
-	})
+	const buffer = fs.readFileSync(path.resolve(__dirname, `albums/${folderName}/${file.filename}`))
 
-	const track = {
-		name: filename.split('.')[0],
-		url: response.url,
-		media: mediaId
-	}
+	return uploadFile(
+		{
+			Body: buffer,
+			Key: file.filename,
+			Bucket: `${process.env.AWS_S3_BUCKET}/tracks/${folderName}`
+		},
+		folderName
+	)
+		.then(response => {
+			debug(`file ${file.filename} uploaded`)
 
-	return createTrack(track)
+			const track = {
+				number: file.number,
+				name: file.name,
+				url: response.url,
+				album: album.id
+			}
+
+			return createTrack(track)
+		})
+		.catch(console.error)
 }
 
 async function main() {
@@ -51,14 +62,21 @@ async function main() {
 		throw new Error(e)
 	}
 
-	const medias = await listMedia()
-	const media = medias[0]
+	const albums = await listAlbums()
+	const album = albums[1]
 
-	debug(`Migrating ${media}`)
+	debug(`Migrating ${album}`)
 
-	const files = fs.readdirSync(path.resolve(__dirname, 'songs'))
+	const files = fs
+		.readdirSync(path.resolve(__dirname, 'albums', convertToFilename(album.name)))
+		.filter(file => file.includes('.mp3'))
+		.map((filename, index) => ({
+			name: getName(filename),
+			filename,
+			number: index + 1
+		}))
 
-	await Promise.all(files.map(filename => uploadFileAndCreateObject(filename, media.id)))
+	await Promise.all(files.map(file => uploadFileAndCreateObject(file, album)))
 
 	return
 }
