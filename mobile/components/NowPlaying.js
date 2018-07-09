@@ -14,7 +14,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Ionicons } from '@expo/vector-icons'
 
-const SCREEN_HEIGHT = Dimensions.get('window').height
+const SCREEN_HEIGHT = Dimensions.get('window').height - 60
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 class NowPlaying extends React.Component {
@@ -126,7 +126,7 @@ class NowPlaying extends React.Component {
 				}}
 			>
 				<Query query={ALBUM_TRACKS_QUERY}>
-					{({ data, loading }) => {
+					{({ data, loading, error }) => {
 						if (loading) {
 							return (
 								<View>
@@ -134,10 +134,18 @@ class NowPlaying extends React.Component {
 								</View>
 							)
 						}
+
+						console.log(data)
+						if (error || !data.album) {
+							return (
+								<View>
+									<Text>Error Ocurred in Query</Text>
+								</View>
+							)
+						}
+
 						return (
 							<View>
-								{React.cloneElement(this.props.children, data)}
-
 								<Animated.View
 									{...this.panResponder.panHandlers}
 									style={[
@@ -146,9 +154,11 @@ class NowPlaying extends React.Component {
 											position: 'absolute',
 											left: 0,
 											right: 0,
-											zIndex: 10,
+											zIndex: 0,
 											height: SCREEN_HEIGHT,
-											backgroundColor: 'white'
+											backgroundColor: 'white',
+											borderTopWidth: 1,
+											borderTopColor: '#dddddd'
 										}
 									]}
 								>

@@ -14,9 +14,10 @@ const albumSchema = new Schema({
 	updated: { type: Date, default: Date.now }
 })
 
-const Album = mongoose.model('Album', albumSchema)
+const Album = mongoose.model('albums', albumSchema)
 
 export const findAlbum = id => {
+	debug(`id ${id}`)
 	return Album.findById(id)
 }
 
@@ -40,3 +41,5 @@ export const listTracksByAlbum = ({ name }) => {
 export const createAlbum = args => {
 	return Album.create(args)
 }
+
+export default Album

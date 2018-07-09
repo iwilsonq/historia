@@ -6,7 +6,10 @@ const Track = ({ onTrackPress, ...track }) => {
 		<TouchableHighlight
 			underlayColor="#e6ecef"
 			activeOpacity={0.3}
-			onPress={() => onTrackPress(track)}
+			onPress={() => {
+				console.log(track)
+				onTrackPress(track)
+			}}
 		>
 			<View style={styles.container}>
 				<View style={styles.left}>

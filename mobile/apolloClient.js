@@ -1,10 +1,11 @@
 import ApolloClient from 'apollo-boost'
 
-const DEFAULT_REMOTE_IP = 'localhost' // for not at home
-const DEFAULT_HOME_IP = '10.0.0.46' // for at home
+// const IP = 'localhost'
+const IP = '10.0.0.46'
+// const IP = '10.31.53.68'
 
 const client = new ApolloClient({
-	uri: `http://${DEFAULT_HOME_IP}:8080/graphql`
+	uri: `http://${IP}:8080/graphql`
 })
 
 export { client }

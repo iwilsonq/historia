@@ -20,8 +20,13 @@ export class PlayerProvider extends Component {
 
 		this.playbackObject = new Expo.Audio.Sound()
 		try {
+			console.log('try', this.playbackObject)
+			console.log('uri', uri)
 			await this.playbackObject.loadAsync({ uri })
+			console.log('loadAsync')
+
 			this.playbackObject.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate)
+
 			this.handlePlay()
 		} catch (error) {
 			console.error(error)
@@ -29,6 +34,7 @@ export class PlayerProvider extends Component {
 	}
 
 	onPlaybackStatusUpdate = playbackStatus => {
+		console.log('onPlaybackStatusUpdate')
 		if (!playbackStatus.isLoaded) {
 			if (playbackStatus.error) {
 				console.error(`Encountered a fatal error during playback: ${playbackStatus.error}`)
@@ -96,16 +102,22 @@ export class PlayerProvider extends Component {
 				{({ data, loading, error }) => {
 					if (error) {
 						console.error(error)
+						throw error
 					}
 
-					const { album = {} } = data
+					if (loading) {
+						return (
+							<View>
+								<Text>Loading tracks...</Text>
+							</View>
+						)
+					}
 
 					return (
 						<View style={styles.wrapper}>
 							<View style={styles.children}>
 								{React.cloneElement(this.props.children, {
-									tracks: album.tracks,
-									loading,
+									album: data.album,
 									...playerProps
 								})}
 							</View>
@@ -158,7 +170,7 @@ export class PlayerProvider extends Component {
 
 export const ALBUM_TRACKS_QUERY = gql`
 	query AlbumTracks {
-		album(name: "The Legend of Zelda: Ocarina of Time") {
+		album(id: "5b39601e26356a5e00255e8c") {
 			name
 			tracks {
 				id

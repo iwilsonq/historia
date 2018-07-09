@@ -11,7 +11,7 @@ const trackSchema = new Schema({
 	updated: { type: Date, default: Date.now }
 })
 
-const Track = mongoose.model('Track', trackSchema)
+const Track = mongoose.model('tracks', trackSchema)
 
 export const listTracks = ({ first, ...args } = {}) => {
 	const query = Track.find(args)

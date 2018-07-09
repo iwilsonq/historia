@@ -5,23 +5,14 @@ import { Query } from 'react-apollo'
 
 import { Track } from '../components/Track'
 
-const TrackScreen = props => {
-	if (props.loading) {
-		return (
-			<View>
-				<Text>Loading tracks...</Text>
-			</View>
-		)
-	}
-
+const Playlist = props => {
 	const { tracks = [] } = props.album
-
 	return (
 		<View style={styles.container}>
 			<FlatList
 				data={tracks}
 				renderItem={({ item, index }) => (
-					<Track number={item.number} onTrackPress={props.handleTrackPress} {...item} />
+					<Track onTrackPress={props.handleTrackPress} {...item} />
 				)}
 				keyExtractor={item => item.id}
 			/>
@@ -36,4 +27,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export { TrackScreen }
+export default Playlist
