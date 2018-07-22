@@ -1,15 +1,15 @@
 import React from 'react'
 import { render, fireEvent, cleanup } from 'react-testing-library'
-import PlayerProvider from 'components/PlayerProvider'
+import Player from 'components/Player'
 import Controls from 'components/Controls'
 
 afterEach(cleanup)
 
 it('renders the Controls component with play button by default', () => {
 	const { getByTestId } = render(
-		<PlayerProvider>
+		<Player>
 			<Controls />
-		</PlayerProvider>
+		</Player>
 	)
 
 	expect(getByTestId('play-button')).not.toBeNull()
@@ -18,9 +18,9 @@ it('renders the Controls component with play button by default', () => {
 describe('when clicking play followed by pause', () => {
 	it('calls handlePlay and handlePause', () => {
 		const { getByTestId, queryByTestId } = render(
-			<PlayerProvider>
+			<Player>
 				<Controls />
-			</PlayerProvider>
+			</Player>
 		)
 
 		fireEvent(
@@ -45,4 +45,14 @@ describe('when clicking play followed by pause', () => {
 		expect(queryByTestId('pause-button')).toBeNull()
 		expect(queryByTestId('play-button')).not.toBeNull()
 	})
+})
+
+it('shows current time', () => {
+	const { getByTestId } = render(
+		<Player initialState={{ currentTime: 40 }}>
+			<Controls />
+		</Player>
+	)
+
+	expect(getByTestId('currentTime').textContent).toBe('0:40')
 })

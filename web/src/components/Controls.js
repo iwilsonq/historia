@@ -1,30 +1,68 @@
 import React from 'react'
+import styled from 'react-emotion'
+import { formatTime } from 'utils'
+import {
+	TrashIcon,
+	PlayIcon,
+	PauseIcon,
+	NextIcon,
+	PreviousIcon,
+	HeartIcon
+} from 'assets/svg/Controls'
+
+const Wrapper = styled('div')({
+	height: '100%',
+	maxWidth: 1000,
+	margin: '0 auto',
+	display: 'flex',
+	justifyContent: 'center',
+	alignItems: 'center'
+})
+
+const Buttons = styled('div')({
+	flex: 1,
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	width: 350,
+	height: '100%'
+})
+
+const TrackDetails = styled('div')({ flex: 1 })
+
+const Duration = styled('div')({
+	flex: 1,
+	display: 'flex',
+	justifyContent: 'flex-end',
+	marginRight: 24
+})
+
+const Text = styled('span')({
+	display: 'inline-block',
+	marginRight: 6
+})
 
 const Controls = props => {
 	return (
-		<div>
-			<button data-testid="dislike-button" onClick={props.onDislikeClick}>
-				Dislike
-			</button>
-			<button data-testid="rewind-button" onClick={props.onRewindClick}>
-				Rewind
-			</button>
-			{props.isPlaying ? (
-				<button data-testid="pause-button" onClick={props.onPauseClick}>
-					Pause
-				</button>
-			) : (
-				<button data-testid="play-button" onClick={props.onPlayClick}>
-					Play
-				</button>
-			)}
-			<button data-testid="skip-button" onClick={props.onSkipClick}>
-				Skip
-			</button>
-			<button data-testid="like-button" onClick={props.onLikeClick}>
-				Like
-			</button>
-		</div>
+		<Wrapper>
+			<TrackDetails />
+			<Buttons>
+				<TrashIcon data-testid="dislike-button" onClick={props.onDislikeClick} />
+				<PreviousIcon data-testid="rewind-button" onClick={props.onRewindClick} />
+				{props.isPlaying ? (
+					<PauseIcon data-testid="pause-button" onClick={props.onPauseClick} />
+				) : (
+					<PlayIcon data-testid="play-button" onClick={props.onPlayClick} />
+				)}
+				<NextIcon data-testid="skip-button" onClick={props.onSkipClick} />
+				<HeartIcon data-testid="like-button" onClick={props.onLikeClick} />
+			</Buttons>
+			<Duration>
+				<Text data-testid="currentTime">{formatTime(props.currentTime)}</Text>
+				<Text>|</Text>
+				<Text data-testid="duration">{formatTime(props.duration)}</Text>
+			</Duration>
+		</Wrapper>
 	)
 }
 
