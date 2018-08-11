@@ -1,8 +1,19 @@
+import { gql } from 'apollo-server-express'
 import merge from 'lodash/merge'
-import { resolvers as trackResolvers, schema as trackSchema } from './tracks/schema'
-import { resolvers as albumResolvers, schema as albumSchema } from './albums/schema'
+import { trackResolvers, trackSchema } from './tracks/schema'
+import { albumResolvers, albumSchema } from './albums/schema'
 
-const schema = [...trackSchema, ...albumSchema]
 const resolvers = merge({}, trackResolvers, albumResolvers)
 
-export { resolvers, schema }
+const rootSchema = `
+  type Query {
+    dummy: String
+  }
+  
+  type Mutation {
+    dummy: String
+  }
+`
+const typeDefs = [rootSchema, trackSchema, albumSchema]
+
+export { typeDefs, resolvers }
