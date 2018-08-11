@@ -1,7 +1,6 @@
 const debug = require('debug')('api:album')
-import { findAlbum, createAlbum } from './model'
-import { listTracks } from '../tracks/model'
-import { albumTypes } from '../../../shared/constants'
+import AlbumModel from './model'
+import TrackModel from '../tracks/model'
 import UserError from '../../utils/UserError'
 
 export const albumSchema = /* GraphQL */ `
@@ -11,7 +10,7 @@ export const albumSchema = /* GraphQL */ `
     series: String
     publisher: String
     type: String
-    cover: String
+    coverArt: String
     composer: String
     releaseDate: Float
     tracks: [Track]
@@ -23,7 +22,7 @@ export const albumSchema = /* GraphQL */ `
 
   input CreateAlbumInput {
     name: String!
-    cover: String
+    coverArt: String
     series: String
     composer: String
     type: String
@@ -38,14 +37,14 @@ export const albumResolvers = {
   Query: {
     album(_, { id }, ctx) {
       debug(`Query.album ${id}`)
-      return findAlbum(id)
+      return AlbumModel.findById(id)
     }
   },
   Album: {
     tracks(album, args, ctx) {
       debug('Album.tracks %O', args)
       debug('%O', album)
-      return listTracks({ album: album.id })
+      return TrackModel.find({ album: album.id })
     }
   },
   Mutation: {
@@ -53,7 +52,7 @@ export const albumResolvers = {
       if (!albumTypes[input.type]) {
         return new UserError(`Type '${input.type}' not valid`)
       }
-      return createAlbum(input)
+      return AlbumModel.insert(input)
     }
   }
 }

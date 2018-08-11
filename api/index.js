@@ -19,6 +19,7 @@ const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/historia'
 debug(`MONGO_URI: ${mongoUri}`)
 mongoose.connect(
   mongoUri,
+  { useNewUrlParser: true },
   err => {
     if (err) {
       debug('Error:', err.message)

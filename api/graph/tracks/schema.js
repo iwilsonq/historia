@@ -1,19 +1,20 @@
 const debug = require('debug')('api:tracks')
-import { listTracks, createTrack } from './model'
+import TrackModel from './model'
 
 export const trackSchema = /* GraphQL */ `
   type Track {
     id: ID!
 
-    number: Int
-
     # readable song title
     name: String
 
-    # URL of mp3 file
+    # url of cover art
+    coverArt: String
+
+    # url of mp3 file
     url: String
 
-    # reference to Game|Film|Series
+    # reference to album
     album: Album
   }
 
@@ -24,6 +25,7 @@ export const trackSchema = /* GraphQL */ `
   input CreateTrackInput {
     name: String!
     url: String!
+    coverArt: String
     album: String
   }
 
@@ -35,14 +37,14 @@ export const trackSchema = /* GraphQL */ `
 export const trackResolvers = {
   Query: {
     tracks(_, args, ctx) {
-      debug(`tracks query %O`, args)
-      return listTracks(args)
+      debug(`query tracks %O`, args)
+      return TrackModel.find()
     }
   },
   Mutation: {
     createTrack(_, { input }, ctx) {
-      debug(`createTrack mutation %O`, input)
-      return createTrack(input)
+      debug(`mutation createTrack %O`, input)
+      return TrackModel.insert(input)
     }
   }
 }
