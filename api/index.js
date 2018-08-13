@@ -14,7 +14,10 @@ const PORT = process.env.PORT || 8080
 
 const app = express()
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/historia'
+const mongoUri = process.env.MONGO_URI
+if (!mongoUri) {
+  throw new Error('missing mongodb connection string')
+}
 
 debug(`MONGO_URI: ${mongoUri}`)
 mongoose.connect(
@@ -24,7 +27,7 @@ mongoose.connect(
     if (err) {
       debug('Error:', err.message)
     }
-    console.log('Connected to mongodb')
+    console.log('connected to mongodb')
   }
 )
 
@@ -36,6 +39,11 @@ app.use(morgan('dev'))
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: {
+    user: {
+      listenedTracks: []
+    }
+  },
   playground: {
     settings: {
       'editor.cursorShape': 'line'

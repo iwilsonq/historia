@@ -10,8 +10,11 @@ class playerProps extends Component {
 
   playbackObject = null
 
-  componentDidMount() {
-    this.loadTrack(this.props.tracks[0]) // play the first track
+  componentWillReceiveProps(nextProps) {
+    const { track } = this.props
+    if (!track && nextProps.track) {
+      this.loadTrack(nextProps.track) // play the first track
+    }
   }
 
   loadTrack = track => {
@@ -50,9 +53,11 @@ class playerProps extends Component {
   }
 
   handleSkip = () => {
-    this.unloadTrack()
-    this.loadTrack(this.props.tracks[1])
-    this.handlePlay()
+    this.props.onSkip().then(() => {
+      this.unloadTrack()
+      this.loadTrack(this.props.track)
+      this.handlePlay()
+    })
   }
 
   handleRewind = () => {

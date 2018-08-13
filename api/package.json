@@ -9,7 +9,7 @@
 	"private": false,
 	"scripts": {
 		"dev": "DEBUG=api:* nodemon index.js --exec 'babel-node'",
-		"migrate": "DEBUG=api:* babel-node migrations/seed.js",
+		"start": "NODE_ENV=production babel-node index.js",
 		"test": "jest --watch"
 	},
 	"dependencies": {

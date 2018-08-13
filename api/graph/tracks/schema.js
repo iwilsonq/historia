@@ -1,9 +1,13 @@
 const debug = require('debug')('api:tracks')
+import mongoose from 'mongoose'
 import TrackModel from './model'
+import { TRACK_COUNT_LIMIT } from '../../constants'
 
 export const trackSchema = /* GraphQL */ `
   type Track {
-    id: ID!
+    _id: ID
+
+    id: ID
 
     # readable song title
     name: String
@@ -19,14 +23,14 @@ export const trackSchema = /* GraphQL */ `
   }
 
   extend type Query {
-    tracks(first: Int = 20, after: ID): [Track]
+    tracks(limit: Int, offset: Int): [Track]
+    sampleTracks(limit: Int): [Track]
   }
 
   input CreateTrackInput {
     name: String!
     url: String!
     coverArt: String
-    album: String
   }
 
   extend type Mutation {
@@ -38,13 +42,28 @@ export const trackResolvers = {
   Query: {
     tracks(_, args, ctx) {
       debug(`query tracks %O`, args)
+      const skip = args.skip || 0
+      const limit = args.limit || TRACK_COUNT_LIMIT
       return TrackModel.find()
+        .skip(skip)
+        .limit(limit)
+    },
+    sampleTracks(_, args, ctx) {
+      debug(`query sampleTracks %O`, args)
+      const limit = args.limit || TRACK_COUNT_LIMIT
+      const { listenedTracks } = ctx.user
+      return TrackModel.aggregate([
+        { $sample: { size: limit } },
+        { $match: { _id: { $nin: listenedTracks.map(mongoose.Types.ObjectId) } } }
+      ]).then(tracks => {
+        return tracks.map(track => ({ ...track, id: track._id.valueOf() }))
+      })
     }
   },
   Mutation: {
     createTrack(_, { input }, ctx) {
       debug(`mutation createTrack %O`, input)
-      return TrackModel.insert(input)
+      return TrackModel.create(input)
     }
   }
 }
