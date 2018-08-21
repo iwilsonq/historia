@@ -2,11 +2,13 @@ import React from 'react'
 import styled from 'react-emotion'
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
-import Player from 'components/Player'
-import Controls from 'components/Controls'
-import NowPlaying from 'components/NowPlaying'
-import { CreateStation } from 'components/CreateStation'
+import { Router } from '@reach/router'
+import { ROUTES } from 'config'
 
+import Login from 'screens/Login'
+import NowPlaying from 'screens/NowPlaying'
+import Header from 'components/Header'
+import Player from 'components/Player'
 import 'normalize.css'
 
 const AppContainer = styled('div')({
@@ -14,38 +16,7 @@ const AppContainer = styled('div')({
   width: '100vw',
   fontFamily:
     'Avenir Next,Avenir,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif',
-  backgroundColor: '#2b59c6'
-})
-
-const BottomBar = styled('footer')({
-  width: '100%',
-  minWidth: 666,
-  position: 'fixed',
-  bottom: 0,
-  height: 66,
-  borderTop: '1px solid rgba(255, 255, 255, 0.6)',
-  backgroundColor: 'rgb(34, 64, 153)',
-  color: 'rgba(255, 255, 255, 0.4)'
-})
-
-const TopBar = styled('header')({
-  width: '100%',
-  minWidth: 666
-})
-
-const TopBarContent = styled('div')({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  maxWidth: 1000,
-  padding: 16,
-  margin: '0 auto'
-})
-
-const BrandLogo = styled('h1')({
-  color: '#fff',
-  fontWeight: 'normal',
-  margin: 0
+  backgroundColor: '#e4e4e4'
 })
 
 class App extends React.Component {
@@ -60,10 +31,12 @@ class App extends React.Component {
 
   // replaces previous 4 tracks with next 4 tracks and resets the index
   fetchTracks = () => {
-    return this.props.client.query({ query: SAMPLE_TRACKS_QUERY, fetchPolicy: 'no-cache' }).then(res => {
-      this.setState({ tracks: res.data.sampleTracks, trackIndex: 0 })
-      return res
-    })
+    return this.props.client
+      .query({ query: SAMPLE_TRACKS_QUERY, fetchPolicy: 'no-cache' })
+      .then(res => {
+        this.setState({ tracks: res.data.sampleTracks, trackIndex: 0 })
+        return res
+      })
   }
 
   nextTrack = async () => {
@@ -84,19 +57,18 @@ class App extends React.Component {
 
     return (
       <AppContainer>
-        <TopBar>
-          <TopBarContent>
-            <CreateStation />
-            <BrandLogo>Historia</BrandLogo>
-          </TopBarContent>
-        </TopBar>
+        <Router primary={false}>
+          <Header path={ROUTES.play} />
+        </Router>
 
-        <NowPlaying track={tracks[trackIndex]} />
-        <BottomBar>
-          <Player track={tracks[trackIndex]} onSkip={this.nextTrack}>
-            <Controls />
-          </Player>
-        </BottomBar>
+        <Router>
+          <Login path={ROUTES.login} />
+          <NowPlaying default path={ROUTES.play} track={tracks[trackIndex]} />
+        </Router>
+
+        <Router primary={false}>
+          <Player path={ROUTES.play} track={tracks[trackIndex]} onSkip={this.nextTrack} />
+        </Router>
       </AppContainer>
     )
   }

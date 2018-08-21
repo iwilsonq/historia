@@ -1,6 +1,19 @@
 import React, { Component } from 'react'
+import styled from 'react-emotion'
+import Controls from 'components/Controls'
 
-class playerProps extends Component {
+const BottomBar = styled('footer')({
+  width: '100%',
+  minWidth: 666,
+  position: 'fixed',
+  bottom: 0,
+  height: 66,
+  borderTop: '1px solid rgba(255, 255, 255, 0.6)',
+  backgroundColor: 'rgb(34, 64, 153)',
+  color: 'rgba(255, 255, 255, 0.4)'
+})
+
+class Player extends Component {
   state = {
     isPlaying: false,
     currentTime: 0,
@@ -72,8 +85,12 @@ class playerProps extends Component {
       onSkipClick: this.handleSkip,
       onRewindClick: this.handleRewind
     }
-    return React.cloneElement(this.props.children, playerProps)
+    return (
+      <BottomBar>
+        <Controls {...playerProps} />
+      </BottomBar>
+    )
   }
 }
 
-export default playerProps
+export default Player

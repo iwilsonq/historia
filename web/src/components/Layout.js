@@ -8,14 +8,20 @@ import {
   flex,
   flexDirection,
   justifyContent,
-  alignItems
+  alignItems,
+  maxWidth,
+  backgroundImage,
+  textAlign
 } from 'styled-system'
 
 export const Box = styled('div')`
+  position: relative;
   ${space}
   ${width}
   ${fontSize}
   ${color}
+  ${maxWidth}
+  ${backgroundImage}
 `
 
 export const Flex = styled('div')`
@@ -28,9 +34,18 @@ export const Flex = styled('div')`
 export const H1 = styled('h1')`
   color: #fff;
   font-weight: normal;
-  ${fontSize};
-  ${color};
-  ${space};
+  ${fontSize}
+  ${color}
+  ${space}
+`
+
+export const Text = styled('p')`
+  color: #fff;
+  font-weight: normal;
+  ${fontSize}
+  ${color}
+  ${space}
+  ${textAlign}
 `
 export const CoverArt = styled('img')`
   width: 240px;

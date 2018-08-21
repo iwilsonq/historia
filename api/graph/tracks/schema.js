@@ -49,7 +49,7 @@ export const trackResolvers = {
         .limit(limit)
     },
     sampleTracks(_, args, ctx) {
-      debug(`query sampleTracks %O`, args)
+      debug(`query sampleTracks args %O context %O`, args, ctx)
       const limit = args.limit || TRACK_COUNT_LIMIT
       const { listenedTracks } = ctx.user
       return TrackModel.aggregate([
