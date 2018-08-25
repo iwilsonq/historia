@@ -5,7 +5,7 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-const HOST = '10.0.0.162'
+const HOST = '10.31.53.138'
 
 const apiUrl = process.env.REACT_APP_LOCAL
   ? `http://${HOST}:8080`

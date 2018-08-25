@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'react-emotion'
 import { formatTime } from 'utils'
 import {
-  TrashIcon,
+  ThumbsDownIcon,
   PlayIcon,
   PauseIcon,
   NextIcon,
   PreviousIcon,
-  HeartIcon
+  ThumbsUpIcon
 } from 'assets/svg/Controls'
 
 const Wrapper = styled('div')({
@@ -47,7 +47,7 @@ const Controls = props => {
     <Wrapper>
       <TrackDetails />
       <Buttons>
-        <TrashIcon data-testid="dislike-button" onClick={props.onDislikeClick} />
+        <ThumbsDownIcon data-testid="dislike-button" onClick={props.onDislikeClick} />
         <PreviousIcon data-testid="rewind-button" onClick={props.onRewindClick} />
         {props.isPlaying ? (
           <PauseIcon data-testid="pause-button" onClick={props.onPauseClick} />
@@ -55,7 +55,7 @@ const Controls = props => {
           <PlayIcon data-testid="play-button" onClick={props.onPlayClick} />
         )}
         <NextIcon data-testid="skip-button" onClick={props.onSkipClick} />
-        <HeartIcon data-testid="like-button" onClick={props.onLikeClick} />
+        <ThumbsUpIcon data-testid="like-button" onClick={props.onLikeClick} />
       </Buttons>
       <Duration>
         <Text data-testid="currentTime">{formatTime(props.currentTime)}</Text>

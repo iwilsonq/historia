@@ -4,13 +4,16 @@ debug('Server starting...')
 import os from 'os'
 import { createServer } from 'http'
 import express from 'express'
-import bodyParser from 'body-parser'
+import session from 'express-session'
 import morgan from 'morgan'
-import cors from 'cors'
+import passport from 'passport'
 import { ApolloServer } from 'apollo-server-express'
 import mongoose from 'mongoose'
+import connectMongo from 'connect-mongo'
 
-import { typeDefs, resolvers, subscriptions } from './graph'
+const MongoStore = connectMongo(session)
+
+import { typeDefs, resolvers, subscriptions } from './entities'
 
 const PORT = process.env.PORT || 8080
 
@@ -33,17 +36,28 @@ mongoose.connect(
   }
 )
 
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('dev'))
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'aaabbbccc',
+    store: new MongoStore({
+      url: mongoUri,
+      autoReconnect: true
+    })
+  })
+)
+app.use(passport.initialize())
+app.use(passport.session())
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   subscriptions,
-  context: ctx => {
+  context: ({ req }) => {
     return {
+      ...req,
       user: {
         listenedTracks: []
       }

@@ -8,7 +8,7 @@ const TopBar = styled('header')({
   minWidth: 666
 })
 
-const Header = () => {
+export const Header = () => {
   return (
     <TopBar>
       <Box m="0 auto" p={16} maxWidth={1000}>
@@ -20,5 +20,3 @@ const Header = () => {
     </TopBar>
   )
 }
-
-export default Header

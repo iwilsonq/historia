@@ -5,16 +5,16 @@ import { Input, Flex, Box, H1, Text, Link, Button } from 'components'
 import { navigate } from '@reach/router'
 import { theme } from '../shared/theme'
 
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+const REGISTER_MUTATION = gql`
+  mutation RegisterMutation($email: String!, $password: String!) {
+    register(email: $email, password: $password) {
       id
       email
     }
   }
 `
 
-class Login extends React.Component {
+class Register extends React.Component {
   state = {
     email: '',
     password: ''
@@ -24,24 +24,24 @@ class Login extends React.Component {
     this.setState({ [event.target.id]: event.target.value })
   }
 
-  renderLoginButton() {
+  renderRegisterButton() {
     return (
-      <Mutation mutation={LOGIN_MUTATION}>
-        {(login, { loading }) => {
+      <Mutation mutation={REGISTER_MUTATION}>
+        {(register, { loading }) => {
           if (loading) {
-            return <Button>Signing in...</Button>
+            return <Button>Creating Account...</Button>
           }
 
           return (
             <Button
               onClick={() => {
-                login({ variables: this.state }).then(mutationResult => {
+                register({ variables: this.state }).then(mutationResult => {
                   // put token into localStorage
                   navigate('play')
                 })
               }}
             >
-              Sign In
+              Register
             </Button>
           )
         }}
@@ -53,12 +53,12 @@ class Login extends React.Component {
     return (
       <Box maxWidth={380} mx="auto" pt={180}>
         <Box
-          backgroundImage={`linear-gradient(135deg, transparent 38px, ${
-            theme.colors.dark
+          backgroundImage={`linear-gradient(225deg, transparent 38px, ${
+            theme.colors.turquoise
           } 0)`}
         >
           <Flex flexDirection="column" alignItems="center">
-            <H1>Sign In</H1>
+            <H1>Create Account</H1>
             <Box maxWidth={300} mb={32}>
               <Text textAlign="center">
                 Listen to some of the best music in video gaming.
@@ -85,10 +85,10 @@ class Login extends React.Component {
               />
             </Box>
 
-            <Box mb={32}>{this.renderLoginButton()}</Box>
+            <Box mb={32}>{this.renderRegisterButton()}</Box>
 
-            <Link to="/register">
-              <Text>Create an account</Text>
+            <Link to="/login">
+              <Text>Back to sign in</Text>
             </Link>
           </Flex>
         </Box>
@@ -97,4 +97,4 @@ class Login extends React.Component {
   }
 }
 
-export { Login }
+export { Register }

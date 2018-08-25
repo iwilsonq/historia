@@ -21,6 +21,7 @@
 		"react-emotion": "^9.2.6",
 		"react-scripts": "1.1.4",
 		"react-testing-library": "^4.1.2",
+		"react-transition-group": "^2.4.0",
 		"styled-system": "^3.0.2",
 		"subscriptions-transport-ws": "^0.9.14"
 	},

@@ -3,12 +3,10 @@ import styled from 'react-emotion'
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Router } from '@reach/router'
-import { ROUTES } from 'config'
 
-import Login from 'screens/Login'
-import NowPlaying from 'screens/NowPlaying'
-import Header from 'components/Header'
-import Player from 'components/Player'
+import { ROUTES } from 'shared'
+import { Login, Register, NowPlaying } from 'screens'
+import { Header, Player } from 'components'
 import 'normalize.css'
 
 const AppContainer = styled('div')({
@@ -62,6 +60,7 @@ class App extends React.Component {
         </Router>
 
         <Router>
+          <Register path={ROUTES.register} />
           <Login path={ROUTES.login} />
           <NowPlaying default path={ROUTES.play} track={tracks[trackIndex]} />
         </Router>

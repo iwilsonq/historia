@@ -1,7 +1,8 @@
 import React from 'react'
 import { navigate } from '@reach/router'
 import { Box, Flex, H1, CoverArt } from 'components/Layout'
-import { ROUTES } from 'config'
+import { ROUTES } from 'shared'
+import { theme } from '../shared/theme'
 
 export default class NowPlaying extends React.Component {
   componentDidMount() {
@@ -24,7 +25,7 @@ export default class NowPlaying extends React.Component {
             <Box>
               <Flex flexDirection="column" alignItems="center">
                 <CoverArt src={track.coverArt} alt={track.name} />
-                <H1 color="#000">{track.name}</H1>
+                <H1 color={theme.colors.black}>{track.name}</H1>
               </Flex>
             </Box>
           </Box>
@@ -33,3 +34,5 @@ export default class NowPlaying extends React.Component {
     )
   }
 }
+
+export { NowPlaying }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 import Controls from 'components/Controls'
+import { theme } from '../shared/theme'
 
 const BottomBar = styled('footer')({
   width: '100%',
@@ -8,12 +9,12 @@ const BottomBar = styled('footer')({
   position: 'fixed',
   bottom: 0,
   height: 66,
-  borderTop: '1px solid rgba(255, 255, 255, 0.6)',
-  backgroundColor: 'rgb(34, 64, 153)',
-  color: 'rgba(255, 255, 255, 0.4)'
+  borderTop: `1px solid ${theme.colors.white}`,
+  backgroundColor: theme.colors.dark,
+  color: theme.colors.white
 })
 
-class Player extends Component {
+export class Player extends Component {
   state = {
     isPlaying: false,
     currentTime: 0,

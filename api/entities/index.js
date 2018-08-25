@@ -1,10 +1,9 @@
-import { gql } from 'apollo-server-express'
 import merge from 'lodash/merge'
 import { trackResolvers, trackSchema } from './tracks/schema'
-import { albumResolvers, albumSchema } from './albums/schema'
+import { userResolvers, userSchema } from './users/schema'
 import subscriptions from './subscriptions'
 
-const resolvers = merge({}, trackResolvers, albumResolvers)
+const resolvers = merge({}, trackResolvers, userResolvers)
 
 const rootSchema = /* GraphQL */ `
   type Query {
@@ -15,6 +14,6 @@ const rootSchema = /* GraphQL */ `
     dummy: String
   }
 `
-const typeDefs = [rootSchema, trackSchema, albumSchema]
+const typeDefs = [rootSchema, trackSchema, userSchema]
 
 export { typeDefs, resolvers, subscriptions }
