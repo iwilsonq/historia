@@ -4,6 +4,7 @@ import { Link as RouterLink } from '@reach/router'
 import {
   space,
   width,
+  height,
   fontSize,
   color,
   flex,
@@ -12,17 +13,22 @@ import {
   alignItems,
   maxWidth,
   backgroundImage,
-  textAlign
+  textAlign,
+  borderRadius
 } from 'styled-system'
+import { theme } from 'shared'
 
 export const Box = styled('div')`
   position: relative;
+  ${borderRadius}
   ${space}
   ${width}
+  ${height}
   ${fontSize}
   ${color}
   ${maxWidth}
   ${backgroundImage}
+  ${flex}
 `
 
 export const Flex = styled('div')`
@@ -31,23 +37,34 @@ export const Flex = styled('div')`
   ${flexDirection}
   ${justifyContent}
   ${alignItems}
+  ${width}
+  ${height}
 `
 export const H1 = styled('h1')`
-  color: #fff;
   font-weight: normal;
+  color: ${p => (p.light ? theme.colors.white : theme.colors.black)};
+  ${fontSize}
+  ${color}
+  ${space}
+`
+
+export const H2 = styled('h2')`
+  font-weight: normal;
+  color: ${p => (p.light ? theme.colors.white : theme.colors.black)};
   ${fontSize}
   ${color}
   ${space}
 `
 
 export const Text = styled('p')`
-  color: #fff;
   font-weight: normal;
+  color: ${p => (p.light ? theme.colors.white : theme.colors.black)};
   ${fontSize}
   ${color}
   ${space}
   ${textAlign}
 `
+
 export const Link = styled(RouterLink)`
   text-decoration: none;
 `
@@ -56,18 +73,4 @@ export const CoverArt = styled('img')`
   width: 240px;
   height: 240px;
   border-radius: 4px;
-`
-
-export const FlipSide = styled('div')`
-  animation: coin-rotate 0.5s both;
-
-  @keyframes coin-rotate {
-    from {
-      transform: rotateY(${p => (p.reverse ? '90' : '0')}deg);
-    }
-
-    to {
-      transform: rotateY(${p => (p.reverse ? '0' : '90')}deg);
-    }
-  }
 `

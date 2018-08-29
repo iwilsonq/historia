@@ -1,41 +1,30 @@
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
-import { split } from 'apollo-link'
-import { WebSocketLink } from 'apollo-link-ws'
-import { getMainDefinition } from 'apollo-utilities'
+import { ApolloLink, concat } from 'apollo-link'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-const HOST = '10.31.53.138'
+const HOST = '172.31.99.160'
 
-const apiUrl = process.env.REACT_APP_LOCAL
-  ? `http://${HOST}:8080`
-  : process.env.REACT_APP_API_URL
+const localUrl = `${HOST}:8080`
+const stageUrl = process.env.REACT_APP_API_URL
 
-const wsLink = new WebSocketLink({
-  uri: `ws://${HOST}:8080/graphql`,
-  options: {
-    reconnect: true,
-    connectionParams: {
-      authToken: 'abc123'
-    }
-  }
-})
+const apiUrl = process.env.REACT_APP_LOCAL ? `http://${localUrl}` : `https://${stageUrl}`
 
 const httpLink = new HttpLink({
-  uri: `${apiUrl}/graphql`
+  uri: `${apiUrl}/graphql`,
+  credentials: 'same-origin'
 })
 
-const link = split(
-  ({ query }) => {
-    const { kind, operation } = getMainDefinition(query)
-    return kind === 'OperationDefinition' && operation === 'subscription'
-  },
-  wsLink,
-  httpLink
-)
+const authMiddleware = new ApolloLink((operation, forward) => {
+  operation.setContext({
+    cookies: 'megacookie'
+  })
+
+  return forward(operation)
+})
 
 const client = new ApolloClient({
-  link,
+  link: concat(authMiddleware, httpLink),
   cache: new InMemoryCache()
 })
 

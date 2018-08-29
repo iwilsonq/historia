@@ -1,5 +1,3 @@
-export const ROUTES = {
-  register: 'register',
-  login: 'login',
-  play: 'play'
-}
+export * from './graphql'
+export * from './routes'
+export * from './theme'

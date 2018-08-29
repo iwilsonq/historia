@@ -1,15 +1,14 @@
 import React from 'react'
-import styled from 'react-emotion'
+import { css } from 'react-emotion'
 import { withApollo } from 'react-apollo'
-import gql from 'graphql-tag'
 import { Router } from '@reach/router'
 
-import { ROUTES } from 'shared'
-import { Login, Register, NowPlaying } from 'screens'
+import { ROUTES, SAMPLE_TRACKS_QUERY } from 'shared'
+import { Login, Register, NowPlaying, Onboarding } from 'screens'
 import { Header, Player } from 'components'
 import 'normalize.css'
 
-const AppContainer = styled('div')({
+const appContainer = css({
   height: '100vh',
   width: '100vw',
   fontFamily:
@@ -21,10 +20,6 @@ class App extends React.Component {
   state = {
     tracks: [],
     trackIndex: 0
-  }
-
-  componentDidMount() {
-    this.fetchTracks()
   }
 
   // replaces previous 4 tracks with next 4 tracks and resets the index
@@ -54,7 +49,7 @@ class App extends React.Component {
     }
 
     return (
-      <AppContainer>
+      <main className={appContainer}>
         <Router primary={false}>
           <Header path={ROUTES.play} />
         </Router>
@@ -62,26 +57,20 @@ class App extends React.Component {
         <Router>
           <Register path={ROUTES.register} />
           <Login path={ROUTES.login} />
-          <NowPlaying default path={ROUTES.play} track={tracks[trackIndex]} />
+          <Onboarding path={ROUTES.onboarding} />
+          <NowPlaying
+            default
+            path={ROUTES.play}
+            fetchTracks={this.fetchTracks}
+            track={tracks[trackIndex]}
+          />
         </Router>
-
         <Router primary={false}>
           <Player path={ROUTES.play} track={tracks[trackIndex]} onSkip={this.nextTrack} />
         </Router>
-      </AppContainer>
+      </main>
     )
   }
 }
-
-const SAMPLE_TRACKS_QUERY = gql`
-  query SampleTracks {
-    sampleTracks {
-      _id
-      name
-      url
-      coverArt
-    }
-  }
-`
 
 export default withApollo(App)

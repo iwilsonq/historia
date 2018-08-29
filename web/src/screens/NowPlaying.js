@@ -10,6 +10,8 @@ export default class NowPlaying extends React.Component {
     if (uri !== `/${ROUTES.play}`) {
       navigate('play')
     }
+
+    this.props.fetchTracks()
   }
 
   render() {

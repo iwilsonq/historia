@@ -1,6 +1,6 @@
 const debug = require('debug')('api:users')
 import UserModel from './model'
-import { signup, login } from './auth'
+import { register, login } from './auth'
 
 export const userSchema = /* GraphQL */ `
   type User {
@@ -14,7 +14,7 @@ export const userSchema = /* GraphQL */ `
   }
 
   extend type Mutation {
-    signup(email: String!, password: String!): User
+    register(email: String!, password: String!): User
     login(email: String!, password: String!): User
     logout: User
   }
@@ -28,9 +28,9 @@ export const userResolvers = {
     }
   },
   Mutation: {
-    signup: (_, { email, password }, ctx) => {
-      debug(`mutation signup ${email}`)
-      return signup({ email, password, ctx })
+    register: (_, { email, password }, ctx) => {
+      debug(`mutation register ${email}`)
+      return register({ email, password, ctx })
     },
     login: (_, { email, password }, ctx) => {
       debug(`mutation login ${email}`)
@@ -38,9 +38,9 @@ export const userResolvers = {
     },
     logout: (_, args, ctx) => {
       debug(`mutation logout`)
-      const { user } = ctx
+      debug('ctx.user %O', ctx.user)
       ctx.logout()
-      return user
+      return ctx.user
     }
   }
 }

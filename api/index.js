@@ -39,12 +39,12 @@ mongoose.connect(
 app.use(morgan('dev'))
 app.use(
   session({
-    resave: true,
-    saveUninitialized: true,
-    secret: 'aaabbbccc',
+    secret: 'running',
+    saveUninitialized: false,
+    resave: false,
     store: new MongoStore({
-      url: mongoUri,
-      autoReconnect: true
+      mongooseConnection: mongoose.connection,
+      touchAfter: 24 * 3600
     })
   })
 )
@@ -56,12 +56,7 @@ const server = new ApolloServer({
   resolvers,
   subscriptions,
   context: ({ req }) => {
-    return {
-      ...req,
-      user: {
-        listenedTracks: []
-      }
-    }
+    return req
   },
   playground: {
     settings: {
@@ -70,7 +65,13 @@ const server = new ApolloServer({
   }
 })
 
-server.applyMiddleware({ app })
+server.applyMiddleware({
+  app,
+  cors: {
+    origin: 'http://localhost:3000',
+    credentials: true
+  }
+})
 const httpServer = createServer(app)
 server.installSubscriptionHandlers(httpServer)
 

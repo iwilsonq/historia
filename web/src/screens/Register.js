@@ -1,7 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Input, Flex, Box, H1, Text, Link, Button } from 'components'
+import { Form, Input, Flex, Box, H1, Text, Link, Button } from 'components'
 import { navigate } from '@reach/router'
 import { theme } from '../shared/theme'
 
@@ -37,7 +37,8 @@ class Register extends React.Component {
               onClick={() => {
                 register({ variables: this.state }).then(mutationResult => {
                   // put token into localStorage
-                  navigate('play')
+                  console.log('mutationResult', mutationResult)
+                  navigate('onboarding')
                 })
               }}
             >
@@ -57,40 +58,42 @@ class Register extends React.Component {
             theme.colors.turquoise
           } 0)`}
         >
-          <Flex flexDirection="column" alignItems="center">
-            <H1>Create Account</H1>
-            <Box maxWidth={300} mb={32}>
-              <Text textAlign="center">
-                Listen to some of the best music in video gaming.
-              </Text>
-            </Box>
+          <Form>
+            <Flex flexDirection="column" alignItems="center">
+              <H1>Create Account</H1>
+              <Box maxWidth={300} mb={32}>
+                <Text textAlign="center">
+                  Listen to some of the best music in video gaming.
+                </Text>
+              </Box>
 
-            <Box maxWidth={300} width="100%" mb={32}>
-              <Input
-                name="email"
-                label="email"
-                placeholder="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </Box>
-            <Box maxWidth={300} width="100%" mb={32}>
-              <Input
-                name="password"
-                label="password"
-                placeholder="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-            </Box>
+              <Box maxWidth={300} width="100%" mb={32}>
+                <Input
+                  name="email"
+                  label="email"
+                  placeholder="email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+              </Box>
+              <Box maxWidth={300} width="100%" mb={32}>
+                <Input
+                  name="password"
+                  label="password"
+                  placeholder="password"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                />
+              </Box>
 
-            <Box mb={32}>{this.renderRegisterButton()}</Box>
+              <Box mb={32}>{this.renderRegisterButton()}</Box>
 
-            <Link to="/login">
-              <Text>Back to sign in</Text>
-            </Link>
-          </Flex>
+              <Link to="/login">
+                <Text>Back to sign in</Text>
+              </Link>
+            </Flex>
+          </Form>
         </Box>
       </Box>
     )

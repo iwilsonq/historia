@@ -36,7 +36,7 @@ passport.use(
   })
 )
 
-function signup({ email, password, ctx }) {
+function register({ email, password, ctx }) {
   const user = new UserModel({ email, password })
   if (!email || !password) {
     throw new Error('You must provide an email and password.')
@@ -51,11 +51,10 @@ function signup({ email, password, ctx }) {
     })
     .then(user => {
       return new Promise((resolve, reject) => {
-        ctx.session.save(err => {
+        ctx.login(user, err => {
           if (err) {
             return reject(err)
           }
-
           resolve(user)
         })
       })
@@ -69,7 +68,7 @@ function login({ email, password, ctx }) {
         reject('Invalid credentials.')
       }
 
-      ctx.session.save(err => {
+      ctx.login(user, err => {
         if (err) {
           return reject(err)
         }
@@ -80,4 +79,4 @@ function login({ email, password, ctx }) {
   })
 }
 
-export { signup, login }
+export { register, login }

@@ -47,9 +47,11 @@ export class Input extends React.Component {
     const { label, name, ...props } = this.props
     return (
       <Box>
-        <StyledLabel htmlFor={name} floating={focused || props.value !== ''}>
-          {label}
-        </StyledLabel>
+        {label && (
+          <StyledLabel htmlFor={name} floating={focused || props.value !== ''}>
+            {label}
+          </StyledLabel>
+        )}
         <StyledInput
           type="text"
           id={name}
@@ -65,7 +67,7 @@ export class Input extends React.Component {
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string
 }
