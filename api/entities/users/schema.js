@@ -7,6 +7,13 @@ export const userSchema = /* GraphQL */ `
     id: ID
     email: String
     password: String
+    gamesEnjoyed: [String]
+    favoriteGame: String
+  }
+
+  input UpdateUserInput {
+    gamesEnjoyed: [String]
+    favoriteGame: String
   }
 
   extend type Query {
@@ -17,6 +24,7 @@ export const userSchema = /* GraphQL */ `
     register(email: String!, password: String!): User
     login(email: String!, password: String!): User
     logout: User
+    updateUser(id: ID!, input: UpdateUserInput!): User
   }
 `
 
@@ -30,17 +38,20 @@ export const userResolvers = {
   Mutation: {
     register: (_, { email, password }, ctx) => {
       debug(`mutation register ${email}`)
-      return register({ email, password, ctx })
+      return register(email, password, ctx)
     },
     login: (_, { email, password }, ctx) => {
       debug(`mutation login ${email}`)
-      return login({ email, password, ctx })
+      return login(email, password, ctx)
     },
     logout: (_, args, ctx) => {
       debug(`mutation logout`)
-      debug('ctx.user %O', ctx.user)
       ctx.logout()
       return ctx.user
+    },
+    updateUser: (_, { id, input }, ctx) => {
+      debug(`mutation updateUser %O`, input)
+      return UserModel.findByIdAndUpdate(id, input)
     }
   }
 }

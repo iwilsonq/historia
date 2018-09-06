@@ -5,7 +5,9 @@ const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
   email: String,
-  password: String
+  password: String,
+  gamesEnjoyed: [String],
+  favoriteGame: String
 })
 
 UserSchema.pre('save', function save(next) {

@@ -19,7 +19,8 @@ const appContainer = css({
 class App extends React.Component {
   state = {
     tracks: [],
-    trackIndex: 0
+    trackIndex: 0,
+    user: null
   }
 
   // replaces previous 4 tracks with next 4 tracks and resets the index
@@ -42,6 +43,10 @@ class App extends React.Component {
     }
   }
 
+  setCurrentUser = user => {
+    this.setState({ user })
+  }
+
   render() {
     const { tracks, trackIndex } = this.state
     if (!tracks) {
@@ -51,14 +56,15 @@ class App extends React.Component {
     return (
       <main className={appContainer}>
         <Router primary={false}>
-          <Header path={ROUTES.play} />
+          <Header path={ROUTES.play} user={this.state.user} />
         </Router>
 
         <Router>
-          <Register path={ROUTES.register} />
-          <Login path={ROUTES.login} />
-          <Onboarding path={ROUTES.onboarding} />
+          <Register path={ROUTES.register} setCurrentUser={this.setCurrentUser} />
+          <Login path={ROUTES.login} setCurrentUser={this.setCurrentUser} />
+          <Onboarding path={ROUTES.onboarding} user={this.state.user} />
           <NowPlaying
+            user={this.state.user}
             default
             path={ROUTES.play}
             fetchTracks={this.fetchTracks}
@@ -66,7 +72,12 @@ class App extends React.Component {
           />
         </Router>
         <Router primary={false}>
-          <Player path={ROUTES.play} track={tracks[trackIndex]} onSkip={this.nextTrack} />
+          <Player
+            path={ROUTES.play}
+            track={tracks[trackIndex]}
+            onSkip={this.nextTrack}
+            user={this.state.user}
+          />
         </Router>
       </main>
     )

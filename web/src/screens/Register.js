@@ -36,8 +36,7 @@ class Register extends React.Component {
             <Button
               onClick={() => {
                 register({ variables: this.state }).then(mutationResult => {
-                  // put token into localStorage
-                  console.log('mutationResult', mutationResult)
+                  this.props.setCurrentUser(mutationResult.data.register)
                   navigate('onboarding')
                 })
               }}
@@ -60,9 +59,9 @@ class Register extends React.Component {
         >
           <Form>
             <Flex flexDirection="column" alignItems="center">
-              <H1>Create Account</H1>
+              <H1 light>Create Account</H1>
               <Box maxWidth={300} mb={32}>
-                <Text textAlign="center">
+                <Text light textAlign="center">
                   Listen to some of the best music in video gaming.
                 </Text>
               </Box>
@@ -90,7 +89,7 @@ class Register extends React.Component {
               <Box mb={32}>{this.renderRegisterButton()}</Box>
 
               <Link to="/login">
-                <Text>Back to sign in</Text>
+                <Text light>Back to sign in</Text>
               </Link>
             </Flex>
           </Form>

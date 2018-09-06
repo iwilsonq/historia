@@ -3,11 +3,16 @@ import { Box } from 'components'
 import { StyledLabel } from './styles'
 
 export const CheckboxItem = props => {
-  console.log(props.light, typeof props.light)
   return (
     <Box>
       <StyledLabel htmlFor={props.name} light={props.light}>
-        <input name={props.name} type="checkbox" {...props} />
+        <input
+          type="checkbox"
+          name={props.name}
+          value={props.value}
+          onChange={props.onChange}
+          checked={props.checked}
+        />
         {props.label}
       </StyledLabel>
     </Box>

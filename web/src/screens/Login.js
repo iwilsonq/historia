@@ -1,18 +1,9 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 import { Form, Input, Flex, Box, H1, Text, Link, Button } from 'components'
 import { navigate } from '@reach/router'
-import { theme } from '../shared/theme'
-
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      id
-      email
-    }
-  }
-`
+import { theme } from 'shared/theme'
+import { LOGIN_MUTATION } from 'shared/graphql'
 
 class Login extends React.Component {
   state = {
@@ -36,8 +27,12 @@ class Login extends React.Component {
             <Button
               onClick={() => {
                 login({ variables: this.state }).then(mutationResult => {
-                  console.log(mutationResult)
-                  navigate('onboarding')
+                  this.props.setCurrentUser(mutationResult.data.login)
+                  if (!mutationResult.data.login.favoriteGame) {
+                    navigate('onboarding')
+                  } else {
+                    navigate('play')
+                  }
                 })
               }}
             >
@@ -59,9 +54,9 @@ class Login extends React.Component {
         >
           <Form>
             <Flex flexDirection="column" alignItems="center">
-              <H1>Sign In</H1>
+              <H1 light>Sign In</H1>
               <Box maxWidth={300} mb={32}>
-                <Text textAlign="center">
+                <Text light textAlign="center">
                   Listen to some of the best music in video gaming.
                 </Text>
               </Box>
@@ -88,7 +83,7 @@ class Login extends React.Component {
               <Box mb={32}>{this.renderLoginButton()}</Box>
 
               <Link to="/register">
-                <Text>Create an account</Text>
+                <Text light>Create an account</Text>
               </Link>
             </Flex>
           </Form>

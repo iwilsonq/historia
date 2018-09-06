@@ -36,7 +36,7 @@ passport.use(
   })
 )
 
-function register({ email, password, ctx }) {
+const register = (email, password, ctx) => {
   const user = new UserModel({ email, password })
   if (!email || !password) {
     throw new Error('You must provide an email and password.')
@@ -61,7 +61,7 @@ function register({ email, password, ctx }) {
     })
 }
 
-function login({ email, password, ctx }) {
+const login = (email, password, ctx) => {
   return new Promise((resolve, reject) => {
     passport.authenticate('local', (err, user) => {
       if (!user) {

@@ -1,5 +1,9 @@
 import React from 'react'
+import { withApollo } from 'react-apollo'
+import { navigate } from '@reach/router'
+
 import { H1, H2, Button, Box, Form, Checkboxes, Input, Segment } from 'components'
+import { UPDATE_USER_MUTATION } from 'shared/graphql'
 
 const QUESTION_OPTIONS = {
   gamesEnjoyed: [
@@ -34,6 +38,26 @@ class OnboardingBase extends React.Component {
     }))
   }
 
+  handleSubmit = event => {
+    event.preventDefault()
+    const { user } = this.props
+    const { gamesEnjoyed, favoriteGame } = this.state
+    this.props.client
+      .mutate({
+        mutation: UPDATE_USER_MUTATION,
+        variables: {
+          id: user.id,
+          input: {
+            gamesEnjoyed,
+            favoriteGame
+          }
+        }
+      })
+      .then(() => {
+        navigate('play')
+      })
+  }
+
   render() {
     return (
       <Box>
@@ -58,7 +82,7 @@ class OnboardingBase extends React.Component {
               />
 
               <Box mt={32} mb={16}>
-                <Button>Submit</Button>
+                <Button onClick={this.handleSubmit}>Submit</Button>
               </Box>
             </Segment>
           </Form>
@@ -68,4 +92,4 @@ class OnboardingBase extends React.Component {
   }
 }
 
-export const Onboarding = OnboardingBase
+export const Onboarding = withApollo(OnboardingBase)
