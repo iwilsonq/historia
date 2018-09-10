@@ -68,7 +68,7 @@ const server = new ApolloServer({
 server.applyMiddleware({
   app,
   cors: {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:5000'],
     credentials: true
   }
 })

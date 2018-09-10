@@ -3,7 +3,7 @@ import { HttpLink } from 'apollo-link-http'
 import { ApolloLink, concat } from 'apollo-link'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-const HOST = '172.20.10.5'
+const HOST = '10.31.53.150'
 
 const localUrl = `${HOST}:8080`
 const stageUrl = process.env.REACT_APP_API_URL
