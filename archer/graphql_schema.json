@@ -52,12 +52,20 @@
                 }
               ],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Track",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Track",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -79,12 +87,20 @@
                 }
               ],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Track",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Track",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -154,9 +170,13 @@
               "description": "",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -166,9 +186,13 @@
               "description": "readable song title",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -178,9 +202,13 @@
               "description": "url of cover art",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -190,9 +218,13 @@
               "description": "url of mp3 file",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null

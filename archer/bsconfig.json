@@ -17,8 +17,8 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "bs-fetch",
-    "reason-apollo"
+    "reason-apollo",
+    "bs-css"
   ],
   "ppx-flags": [
     "graphql_ppx/ppx"

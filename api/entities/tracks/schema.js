@@ -7,21 +7,21 @@ export const trackSchema = /* GraphQL */ `
   type Track {
     _id: ID
 
-    id: ID
+    id: ID!
 
     # readable song title
-    name: String
+    name: String!
 
     # url of cover art
-    coverArt: String
+    coverArt: String!
 
     # url of mp3 file
-    url: String
+    url: String!
   }
 
   extend type Query {
-    tracks(limit: Int, offset: Int): [Track]
-    sampleTracks(limit: Int): [Track]
+    tracks(limit: Int, offset: Int): [Track!]!
+    sampleTracks(limit: Int): [Track!]!
   }
 
   input CreateTrackInput {
@@ -40,7 +40,7 @@ export const trackResolvers = {
     tracks(_, args, ctx) {
       debug(`query tracks %O`, args)
       const skip = args.skip || 0
-      const limit = args.limit || TRACK_COUNT_LIMIT
+      const limit = args.limit || 100
       return TrackModel.find()
         .skip(skip)
         .limit(limit)

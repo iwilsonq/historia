@@ -22,6 +22,7 @@
     "apollo-link-error": "^1.1.0",
     "apollo-link-http": "^1.5.4",
     "apollo-link-ws": "^1.0.8",
+    "bs-css": "^7.2.0",
     "bs-fetch": "^0.3.0",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.9.2",
